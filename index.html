@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="Author" content="김미도">
+    <meta name="description" content="포트폴리오 인트로">
+    <!-- <link rel="shortcut icon" href="./images/favicon.svg"> -->
+    <title>Welcome</title>
+    <link rel="stylesheet" href="./css/index.css">
+</head>
+<body>
+    <section class="landing">
+        <div class="txt">
+            <b>Welcome!</b>
+        </div>
+        <div class="img">
+            <img src="./images/cat_hand.svg" alt="고양이손">
+        </div>
+    </section>
+    <script>
+        setTimeout(function() {
+            document.querySelector(".img").classList.add("down");
+            document.querySelector("b").classList.add("on");
+		}, 1100);
+
+        setTimeout(function() {
+			location.replace("./main.html");
+		}, 2600);
+    </script>
+</body>
+</html>
