@@ -1,0 +1,111 @@
+@charset 'utf-8';
+@import './style.scss';
+@import './mixin.scss';
+
+@import url("https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.6/dist/web/variable/pretendardvariable-dynamic-subset.css");
+
+@font-face {
+    font-family: 'Cafe24Dongdong';
+    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_twelve@1.1/Cafe24Dongdong.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    color: #fff;
+    letter-spacing: -0.04em;
+    background-color: $main-color02;
+    
+    font: {
+        size: 16px;
+        family: "Pretendard Variable", Pretendard, -apple-system, BlinkMacSystemFont, system-ui, Roboto, "Helvetica Neue", "Segoe UI", "Apple SD Gothic Neo", "Noto Sans KR", "Malgun Gothic", "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", sans-serif;
+    }
+    
+    @include responsive(tablet-screens) {
+        font-size: 20px;
+    }
+}
+
+.container {
+    position: relative;
+    width: 100%;
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 0 20px;
+
+    @include responsive(pc-screens) {
+        padding: 0 10px;
+    }
+}
+
+input, textarea, button, select, pre {
+    font-family: inherit;
+    letter-spacing: -0.04em;
+}
+
+
+ul, ol {
+    list-style: none;
+    -webkit-padding-start: 0;
+}
+
+a {
+    display: inline-block;
+    text-decoration: none;
+    color: #fff;
+}
+
+.click {
+    cursor: pointer;
+    
+    div, h1, span, img {
+        pointer-events: none;
+    }
+}
+
+address {
+    font-style: normal;
+}
+
+button {
+    border: 0;
+    background: transparent;
+}
+
+input {
+    
+    &:focus {
+        outline: none;
+    }
+
+    // &[type=checkbox], &[type=radio] {
+    // }
+}
+
+a, input, button, select, label {
+    cursor: pointer;
+}
+
+section > h2 {
+    display: none;
+}
+
+// select {
+//     -webkit-appearance: none;
+//     -moz-appearance: none;
+//     appearance: none;
+    
+//     &::-ms-expand {
+//         display: none;
+//     }
+// }
+
+header, main, footer {
+    display: block;
+}

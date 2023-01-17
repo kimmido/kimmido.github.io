@@ -1,0 +1,1407 @@
+@charset "utf-8";
+@import './style.scss';
+@import './common.scss';
+@import './mixin.scss';
+
+body {
+    overflow-y: overlay;
+    overflow-x: hidden;
+
+    &::-webkit-scrollbar {
+        width: 8px;  /* 스크롤바의 너비 */
+
+        @include responsive(tablet-screens) {
+            width: 10px;
+        }
+    }
+    
+    &::-webkit-scrollbar-thumb {
+        height: 10%; /* 스크롤바의 길이 */
+        background: $point-pink; /* 스크롤바의 색상 */
+        
+        border-radius: 10px;
+    }
+
+    &.scroll-stop {
+        height: 100%;
+        position: fixed;
+    }
+}
+
+#wraper {
+    
+    #cursor {
+        position: absolute;
+        @include square(12px);
+        pointer-events: none;
+        transform: scale(0);
+        border-radius: 50%;
+        background-color: $point-pink;
+
+        transition: all .3s;
+        
+        &.on {
+            z-index: 99;
+            transform: scale(1);
+        }
+        
+        &.pointer {
+            transform: scale(2);
+            opacity: .5;
+            background-color: $point-neon;
+        }
+    }
+
+    header {
+        position: fixed;
+        width: 100%;
+        height: 100px;
+        z-index: 87;
+        background-color: transparent;
+
+        transition: all .3s;
+        
+        @include responsive(pc-screens) {
+            border-bottom: 1px solid #fff;
+            
+            &:hover {
+                background-color: $main-color;
+            }
+        }
+    
+        .header-inner {
+            margin: 30px 20px 0;
+                    
+            @include responsive(pc-screens) {
+                margin: {
+                    bottom: 30px;
+                    left: 100px;
+                }
+            }
+    
+            .logo {
+                @include square(34px);
+                z-index: 88;
+                
+                @include responsive(tablet-screens) {
+                    @include square(40px);
+                }
+
+                a {
+
+                    img {
+                        width: 100%;
+                    }
+                }
+            }
+    
+            #mobileGnb,
+            .gnb {
+                z-index: 89;
+                position: absolute;
+    
+                li {
+                    
+                    a {
+                        width: 100%;
+                        text-align: center;
+    
+                        span {
+                            font-weight: 500;
+    
+                            &.kr {
+                                display: none;
+                            }
+                        }
+    
+                        &:hover {
+                                
+                            .eng {
+                                display: none;
+                            }
+            
+                            .kr {
+                                display: block;
+                            }
+                        }
+                    } 
+                }
+            }
+            
+            .mobile-menu-wrap {
+                background-color: violet;
+                
+                @include responsive(tablet-screens) {
+                    display: none;
+                }
+    
+                .mobile-menu-bt {
+                    
+                    .bt-box {
+                        position: absolute;
+                        right: 20px; top: 34px;
+                        z-index: 90;
+                        
+                        span {
+                            display: block;
+                            width: 30px; height: 2px;
+                            background-color: #fff;
+                            
+    
+                            transition: all .2s; 
+    
+                            // transition: {
+                            //     property: width, height, transform, top, left, margin-top;
+                            //     duration: .2s;
+                            //     delay: 0;
+                            //     timing-function: linear
+                            // }
+    
+                            &:nth-child(2) {
+                                background-color: $point-neon;
+                            }
+                            
+                            & + span {
+                                margin-top: 10px;
+                            }
+                        }
+                        
+                        &.on {
+    
+                            span {
+                                background-color: $main-color;
+                                
+                                &:nth-child(2) {
+                                    @include square(34px);
+                                    border-radius: 3px;
+                                    background-color: $point-neon;
+                                }
+    
+                                &:first-child,
+                                &:last-child {
+                                    @include position_center();
+                                    width: 22px; height: 3px;
+                                }
+                                
+                                &:first-child {
+                                    transform: translate(-50%, -50%) rotate(45deg);   
+                                }
+                                
+                                &:last-child {
+                                    transform: translate(-50%, -50%) rotate(-45deg);   
+                                }
+    
+                                & + span {
+                                    margin-top: 0;
+                                }
+                            }
+                        }
+                    } // bt-box
+                } // .mobile-menu-bt
+    
+                #mobileGnb {
+                    position: absolute;
+                    left: 100%; top: 0;
+                    width: 100%; height: 100vh;
+                    background: url('../images/cat_ear.svg') $main-color no-repeat center bottom;
+                    background-size: 80%;
+    
+                    transition: all .8s;
+    
+                    &.on {
+                        left: 0;
+                    }
+        
+                    li {
+                        
+                        &:first-child {
+                            margin-top: 140px;
+                        }
+                        
+                        & + li {
+                            margin-top: 60px;
+                        }
+    
+                        a {
+    
+                            span {
+                                font-size: 34px;
+                            }
+                        }
+                    }
+                } // mobileGnb
+            } // mobile-menu-wrap
+            
+            #gnbWrap {
+    
+                .gnb {
+                    display: none;
+                    position: absolute;
+                    top: 35px; right: 30px;
+                    width: 540px;
+                    
+                    @include responsive(tablet-screens) {
+                        display: flex;
+                        justify-content: space-between;
+                    }
+                    
+                    li {
+                        position: relative;
+                        width: 120px;
+
+                        span{
+                            
+                            &.dot {
+                                display: block;
+                                position: absolute;
+                                top: 0; left: 50%; 
+                                transform: translateX(-50%);
+                                @include square(10px);
+                                border-radius: 50%;
+                                background-color: $point-pink;
+                                
+                                animation: .5s bounce alternate infinite cubic-bezier(.1, .1, .1, .8);
+                                
+                                @keyframes bounce {
+                                    from {top: 0;}
+                                    to {top: -12px;}
+                                }
+                            }
+                        }
+                        
+                        a {
+                            padding: 5px;
+                            text-shadow: 0px 5px 5px rgba(0, 0, 0, 0.3);
+                            span {
+                                font-size: 24px;
+                            }
+                        }
+                    }
+                } // gnb
+            } // gnbWrap
+        } // header-inner
+    } // header
+    
+    
+    
+    
+    
+    main {
+        // overflow: hidden;
+        word-break: keep-all;
+    
+        .index-wrap > h3 {
+            font-size: 20px;
+        
+            @include responsive(pc-screens) { font-size: 24px; }
+        }
+    
+        section#homeWrap {
+            position: relative;
+            background-color: $main-color;
+            
+            transition: opacity .15s ease-out;
+            
+            @include responsive(pc-screens) {
+                cursor: none;
+            }
+    
+    
+            .home {
+                position: relative;
+                
+                .background-bk, .background-neon {
+                    width: 100vw; 
+                    height: 100vh;
+                    overflow: hidden;
+                }
+    
+                .home-txt {
+                    padding-top: 145px;
+    
+                    @include responsive(pc-screens) {
+                        padding-top: 220px;
+                    }
+    
+                    > span {
+                        font-size: 24px;
+                        
+                        @include responsive(tablet-screens) {
+                            font-size: 30px;
+                        }
+    
+                        @include responsive(pc-screens) {
+                            font-size: 40px;
+                        }
+                        
+                        strong {
+                            font-size: 30px;
+    
+                            @include responsive(tablet-screens) {
+                                font-size: calc(1em + 20px);
+                            }
+    
+                            .point-txt {
+                                color: $point-pink;
+                            }
+                        }
+                    }
+                }
+    
+                .home-img {
+                    width: calc(322px/ 390px) * 100%;
+                    margin: {
+                        top: 80px;
+                        left: auto;
+                        right: calc(90px/ 390px) * -100%;
+                    }
+                    
+                    @include responsive(pc-screens) {
+                        width: calc(757px / 1920px) * 100%;
+                        margin: {
+                            top: -25px;
+                            left: auto;
+                            right: 0;
+                        }
+                    }
+                }
+                
+                .mouse-pointer {
+                    display: none;
+                    position: absolute;
+                    top: -240px;
+                    @include square(240px);
+                    overflow: hidden;
+                    border-radius: 50%;
+                    transform: scale(0);
+                    
+                    transition: transform .3s;
+
+                    &.scale {
+                        transform: scale(1);
+                    }
+
+                    @include responsive(pc-screens) {
+                        display: block;
+                    }
+                    
+                    .background-neon {
+                        position: absolute;
+                        background-color: $point-neon;
+    
+                        .home-box {
+                            position: relative;
+                            height: 100vh;
+                            
+                            .home-txt,
+                            .hidden-txt {
+                                color: $main-color;
+                            }
+        
+                            .hidden-txt {
+                                position: absolute;
+                                left: calc(330px / 1380px) * 100%;
+                                top: calc(620px / 1380px) * 100%;
+                                font-family: $point-font;
+                            }
+        
+                            .hidden-arrow {
+                                position: absolute;
+                                left: 50%; bottom: 27px;
+                                transform: translateX(-50%);
+                                width: calc(95px / 1380px) * 100%;
+                            }
+                        }
+                    }
+                }
+            } // home
+        } // section#homeWrap
+    
+        section#aboutWrap {
+            // background-color: $main-color02;
+    
+            .about {
+                padding-top: 75px;
+                color: $main-color;
+    
+                @include responsive(tablet-screens) {
+                    padding-top: 120px;
+                }
+    
+                @include responsive(pc-screens) {
+                    padding-top: 230px;
+                }
+    
+                .about-title {
+                    text-align: center;
+    
+                    strong {
+                        display: block;
+                        @include font_height(22px, 30px);
+
+                        transition: transform 1.2s ease-in-out;
+                        
+                        &:first-child {
+                            transform: translateX(-100%);
+                        }
+                        
+                        &:last-child {
+                            transform: translateX(100%);
+                        }
+                        
+                        &.center-in {
+                            transform: translate(0);
+                        }
+
+                        @include responsive(tablet-screens) {
+                            @include font_height(40px, 50px)
+                        }
+    
+                        @include responsive(pc-screens) {
+                            @include font_height(64px, 75px)
+                        }
+
+                        .point-txt {
+                            color: $point-pink;
+                        }
+                    }
+                }
+    
+                .about-flex {
+                    margin-top: 100px;
+    
+                    @include responsive(tablet-screens) {
+                        display: flex;
+                        justify-content: space-between;
+                    }
+    
+                    @include responsive(pc-screens) {
+                        width: calc(1160px / 1380px) * 100%;
+                        margin-top: 200px;
+                    }
+    
+                    .about-txt {
+                        
+                        @include responsive(tablet-screens) {
+                            margin-top: 80px;
+                            margin-right: 20px;
+                            width: calc(650px / 1380px) * 100%;
+                            order: 2;
+                        }
+                        
+                        @include responsive(pc-screens) {
+                            margin-top: calc(100px / 1380px) * 100%;
+                            width: calc(650px / 1380px) * 100%;
+                        }
+                        
+                        p {
+                            @include font_height(1em, calc(1em + 14px));
+                            text-align: justify;
+                        }
+                    }
+    
+                    .about-img {
+                        margin-top: 90px;
+                        margin-left: 20%;
+                        width: 200px;
+                        aspect-ratio: 4/5;
+                        background-color: #eee;
+                        
+                        @include responsive(tablet-screens) {
+                            margin-top: 0;
+                            margin-left: 0;
+                            width: 300px;
+                            order: 1;
+                        }
+                        
+                        @include responsive(pc-screens) {
+                            margin-left: 80px;
+                            width: calc(390px / 1380px) * 100%;
+                        }
+                    }
+                }
+            } // about
+        } // section#aboutWrap
+    
+        section#attitudeWrap {
+            padding-top: 60px;
+            padding-bottom: 50px;
+            background-color: $main-color;
+            
+            @include responsive(tablet-screens) {
+                padding-top: 100px;
+                padding-bottom: 120px;
+            }
+            
+            @include responsive(pc-screens) {
+                padding-top: 140px;
+                padding-bottom: 200px;
+            }
+    
+            .attitude-inner {
+                
+                .index-wrap {
+                    text-align: right;
+                    
+                    .index {
+                        @include index();
+                    }
+                } // index-wrap
+    
+                .attitude-area {
+                    margin-top: 50px;
+    
+                    @include responsive(pc-screens) {
+                        margin-top: 66px;
+                    }
+                    
+                    .title {
+                        
+                        h4 {
+                            position: relative;
+                            font-size: 60px;
+        
+                            @include responsive(tablet-screens) {
+                                font-size: 100px;
+                            }
+        
+                            @include responsive(pc-screens) {
+                                margin-left: 160px;
+                                font-size: 150px;
+                            }
+
+                            &::after {
+                                position: absolute;
+                                left: 0; bottom: 0; 
+                                content: "";
+                                width: 100%; height: 100%;
+                                background-color: $main-color;
+
+                                transition: height .4s;
+                            }
+
+                            &.up {
+                                &::after {
+                                    height: 0%;
+                                }
+                            }
+                        }
+                    }
+    
+                    .attitude-flex {
+    
+                        @include responsive(tablet-screens) {
+                            display: flex;
+                        }
+    
+                        .img-con-change-box {
+                            position: relative;
+                            margin: 0 auto;
+                            width: 240px;
+                            
+                            @include responsive(tablet-screens) {
+                                margin-left: 55px;
+                                width: 320px;
+                            }
+    
+                            @include responsive(pc-screens) {
+                                width: 320px;
+                                margin-left: calc(300px / 1380px) * 100%;
+                            }
+                            
+    
+                            .img {
+                                position: relative;
+                                margin-top: -20px;
+                                width: 100%;
+                                aspect-ratio: 32 / 39;
+                                background: url(../images/attitude\(0\).png) no-repeat center top;
+                                background-size: 110%;
+
+                                @include responsive(tablet-screens) {
+                                    margin-top: -30px;
+                                }
+                                
+                                @include responsive(pc-screens) {
+                                    margin-top: -45px;
+                                }
+
+                                &::before {
+                                    @include overlay($point-pink);
+
+                                    transition: width .3s linear;
+                                }
+
+                                &.coverOut {
+                                    &::before {
+                                        width: 0%;
+                                    }
+                                }
+    
+
+                            }
+    
+                            .con-change {
+                                position: absolute;
+                                left: 50%; bottom: -24px;
+                                transform: translateX(-50%);
+                                display: flex;
+                                justify-content: space-between;
+                                width: 158px;
+    
+                                @include responsive(pc-screens) {
+                                    width: 178px;
+                                }
+    
+                                .prev, .next {
+                                    width: 54px; height: 50px;
+                                    
+                                    transition: all .3s;
+
+                                    &:hover {
+                                        transform: scale(1.2);
+                                    }
+                                }
+                            }
+                        } // img-con-change-box
+    
+                        .attitude-txt {
+                            margin-top: 50px;
+                            @include font_height(1em);
+                            
+                            @include responsive(tablet-screens) {
+                                margin: 70px 40px 0;
+                                font-size: 18px;
+                            }
+                            
+                            @include responsive(pc-screens) {
+                                margin-left: 70px;
+                                margin-right: 190px;
+                                font-size: 20px;
+                                width: 500px;
+                            }
+                            
+                            @include responsive(pc-L-screens) {
+                                margin-top: 140px;
+                            }
+
+                            p {
+                                position: relative;
+
+                                &::after {
+                                    position: absolute;
+                                    right: 0; bottom: 0; 
+                                    content: "";
+                                    width: 100%; height: 100%;
+                                    background-color: $main-color;
+    
+                                    transition: height .4s;
+                                }
+    
+                                &.up {
+                                    &::after {
+                                        height: 0%;
+                                    }
+                                }
+                            }
+                        }
+                    }
+                } // attitude-area
+            } // attitude-inner
+        } // section #attitudeWrap
+    
+        section#skillWrap {
+            position: relative;
+            padding-top: 50px;
+            background-color: $main-color;
+            
+            @include responsive(tablet-screens) {
+                padding-top: 100px;
+            }
+
+            @include responsive(pc-screens) {
+                padding-top: 150px;
+            }
+            
+            &.detail-overlay {
+                overflow: hidden;
+
+                &::before {
+                    @include overlay(rgba(0, 0, 0, 0.45));
+                    z-index: 1;
+                    // display: none;
+                }
+            }
+    
+            .skill {
+    
+                h3 {
+                    font-size: 20px;
+                    
+                    @include responsive(pc-screens) {
+                        font-size: 30px;
+                    }
+                }
+    
+                #skillList,
+                #skillDetail {
+
+                    .perspective {
+                        position: relative;
+                        perspective: 2000px;
+                        perspective-origin: -600px 500px;
+                        
+                        .cube{
+                            position: relative;
+                            transform-style: preserve-3d;
+        
+                            > div {
+                                position: absolute;
+                                left: 0; top: 0;
+        
+                                span {
+                                    @include position_center();
+                                    display: block;
+                                    padding: auto;
+                                    font-family: $point-font;
+                                }
+                            }
+                        }
+                    }
+                } // #skillList, #skillDetail
+                
+                #skillList {
+                    display: flex;
+                    justify-content: space-around;
+                    flex-wrap: wrap;
+                    padding: 40px 0 20px;
+                    
+                    @include responsive(pc-screens) {
+                        margin-top: 80px;
+                        justify-content: space-between;
+                    }
+                    
+                    
+                    .perspective {
+                        padding-top: 20px;
+                        width: 50%; height: 160px;
+                        
+                        @include responsive(tablet-screens) {
+                            width: 25%; height: 180px;
+                        }
+    
+                        @include responsive(pc-screens) {
+                            height: 360px;
+                        }
+    
+                        // 큐브 회전 애니메이션 선언
+                        &:nth-child(1) .cube,
+                        &:nth-child(8) .cube{ animation-name: cuberotate01; }
+                        
+                        &:nth-child(2) .cube,
+                        &:nth-child(7) .cube { animation-name: cuberotate02; }
+    
+                        &:nth-child(3) .cube,
+                        &:nth-child(6) .cube { animation-name: cuberotate03; }
+    
+                        &:nth-child(4) .cube,
+                        &:nth-child(5) .cube { animation-name: cuberotate04; }
+    
+                        // 큐브 회전 애니메이션 생성
+                        @keyframes cuberotate01 {
+                            from { transform: rotateY(0);}
+                            to { transform: rotateY(360deg);}
+                        }
+                        
+                        @keyframes cuberotate02 {
+                            from { transform: rotateZ(50deg) rotateY(360deg);}
+                            to { transform: rotateZ(50deg) rotateY(0);}
+                        }
+    
+                        @keyframes cuberotate03 {
+                            from { transform: rotateZ(-50deg) rotateY(0);}
+                            to { transform: rotateZ(-50deg) rotateY(360deg);}
+                        }
+    
+                        @keyframes cuberotate04 {
+                            from { transform: rotateX(230deg)rotateZ(230deg) rotateY(0);}
+                            to { transform: rotateX(230deg) rotateZ(230deg) rotateY(360deg);}
+                        }
+                        
+                        .cube {
+                            margin: 0 auto;
+                            @include square(80px);
+                            animation: {
+                                duration: 10s;
+                                timing-function: linear;
+                                iteration-count: infinite;
+                            }
+                            cursor: pointer;
+                            
+                            &:hover {
+                                animation-play-state: paused;
+    
+                                > div {
+                                    color: $main-color;
+                                    border-color: $main-color;
+                                    background-color: $main-color02;
+                                }                            
+                            }
+    
+                            @include responsive(pc-screens) {
+                                @include square(130px);
+                            }
+    
+                            > div {
+                                color: rgba(255, 255, 255, 0.6);
+                                border: 2px solid rgba(255, 255, 255, 0.6);
+                                background-color: $main-color;
+                                
+                                @include create_cube(80px);
+                                
+                                @include responsive(pc-screens) {
+                                    @include create_cube(130px);
+                                }
+    
+                                span {
+                                    font-size: calc(1em + 4px);
+                                    
+                                    @include responsive(pc-screens) {
+                                        font-size: 32px;
+                                    }
+                                }
+                            }
+                        } // cube
+                    } // perspective
+                } // skillList
+    
+                #skillDetail {
+                    @include overlay(rgba(0, 0, 0, 0.45));
+                    position: fixed;
+                    z-index: 2;
+                    display: none;
+
+                    transition: opacity .1s;
+
+                    opacity: 0;
+                    
+                    &.on {
+                        display: block;
+                        opacity: 1;
+                    }
+                    
+                    .detail-inner {
+                        @include position_center;
+                        width: 100%;
+                        padding: 0 20px;
+                        
+
+                        @include responsive(pc-L-screens) {
+                            width: 1380px;
+                        }
+
+                        .perspective {
+                            transform: translate(60px, -30px);
+                            
+                            @include responsive(pc-screens) {
+                                transform: translate(40px, 20px);
+                            }
+                            
+                            .cube {
+        
+                                > div {
+                                    color: #555;
+                                    border: 2px solid #555;
+                                    background-color: $main-color02;
+                                    
+                                    @include create_cube(80px);
+                                    
+                                    @include responsive(pc-screens) {
+                                        @include create_cube(280px);
+                                        border-width: 5px;
+                                    }
+        
+                                    span {
+                                        font-size: calc(1em + 4px);
+                                        
+                                        @include responsive(pc-screens) {
+                                            font-size: 60px;
+                                        }
+                                    }
+                                }
+                            } // cube
+                        } // perspective
+        
+                        .txt-wrap {
+                            height: 200px;
+                            border: 2px solid #555;
+                            background-color: $main-color02;
+
+                            @include responsive(tablet-screens) {
+                                height: 240px;  
+                            }
+                            
+                            @include responsive(pc-screens) {
+                                height: 280px;  
+                                border-width: 5px;
+                                margin-left: 330px;
+                            }
+                            
+                            .close {
+                                margin: 20px 20px auto auto;
+                                @include square(25px);
+
+                                transition: transform .3s;
+
+                                &:hover {
+                                    transform: rotateZ(180deg);
+                                }
+                            }
+                            
+                            .txt-inner {
+                                padding: 40px 22px 60px;
+
+                                @include responsive(tablet-screens) {
+                                    padding: 50px 60px 90px;
+                                }
+                                
+                                @include responsive(pc-screens) {
+                                    padding: 70px 100px 0;
+                                }
+                                
+                                p {
+                                    text-align: justify;
+                                    color: $main-color;
+                                    @include font_height(calc(1em - 2px));
+                                }
+                            }
+                        }
+                    } // detail-inner
+                } // skillDetail
+            } // skill
+        } // section#skillWrap
+    
+        section#portfolioWrap {
+            // overflow: hidden;
+            padding-top: 50px;
+            padding-bottom: 50px;
+            
+            @include responsive(tablet-screens) {
+                padding-left: 20px;
+                padding-right: 20px;
+            }
+    
+            @include responsive(pc-screens) {
+                padding: 80px calc(100px / 1920px) * 100%;
+            }
+            
+            
+            .portfolio-area {
+                color: $main-color;
+    
+                > h3 {
+                    display: none;
+                    @include position_center();
+                    position: fixed;
+                    font-size: 100px;
+                    z-index: -1;
+                    color: rgba(255, 255, 255, 0.6);
+
+                    @include responsive(tablet-screens) {
+                        font-size: 140px;
+                    }
+
+                    @include responsive(pc-screens) {
+                        font-size: 200px;
+                    }
+                }
+    
+                ul.portfolio-list {
+                    
+                    li.item-wrap {
+                        perspective: 2000px;
+                        // perspective-origin: 500px 500px;
+                        
+                        & + .item-wrap {
+                            margin-top: 100px;
+                            
+                            @include responsive(pc-screens) {
+                                margin-top: 112px;
+                            }
+                        }
+   
+                        &.up {
+                            
+                            .item-inner {
+                                box-shadow: 0 7px 40px 4px rgba(0, 0, 0, 0.2);
+                                transform: rotateX(0) translateZ(0) translateY(0);
+                            }
+                        }
+                        
+                        .item-inner {
+                            width: 100%;
+                            overflow: hidden;
+                            border-radius: 30px;
+                            background-color: #fff;
+                            transform: rotateX(30deg) translateZ(-400px) translateY(180px);
+                            
+                            transition: {
+                                property: box-shadow, transform;
+                                delay : 1s, 0;
+                                duration : 1s, 1s;
+                            }
+                            
+                            @include responsive(pc-M-screens) {
+                                margin: 0 auto 0;
+                                aspect-ratio: 16 / 9;
+                                border-radius: 50px;
+                                transform: rotateX(30deg) translateZ(-400px) translateY(400px);
+                            }
+                            
+                            .item-area {
+                                
+                                @include responsive(pc-M-screens) {
+                                    display: flex;
+                                }
+                                
+                                .item-img {
+                                    width: 100%; height: 330px;
+                                    overflow: hidden;
+                                   
+                                    @include responsive(tablet-screens) {
+                                        height: 600px;
+                                    }
+        
+                                    @include responsive(pc-M-screens) {
+                                        width: calc(950px / 1720px) * 100%; 
+                                        height: 100%;
+                                    }
+            
+                                    img {
+                                        width: 100%;
+                                    }
+                                }
+                                
+                                .item-con {
+                                    display: flex;
+                                    flex-direction: column;
+                                    position: relative;
+                                    padding: 50px 20px 50px;
+        
+                                    @include responsive(tablet-screens) {
+                                        padding-left: 60px;
+                                        padding-right: 60px;
+                                    }
+                                    
+                                    @include responsive(pc-M-screens) {
+                                        width: calc(880px / 1720px) * 100%; 
+                                        padding: 65px 50px;
+                                    }
+
+                                    @include responsive(pc-L-screens) {
+                                        padding: 100px;
+                                    }
+            
+                                    .index-wrap {
+                                        order: 2;
+                                        margin: 30px auto 0;
+                                        
+                                        @include responsive(pc-M-screens) {
+                                            order: 1;
+                                            margin: 0;
+                                        }
+                                        
+                                        h3 {
+                                            display: none;
+                                            text-align: right;
+                                            
+                                            @include responsive(pc-M-screens) {
+                                                display: block;
+                                                font-size: 20px;
+                                            }
+                                            
+                                            @include responsive(pc2-screens) {
+                                                font-size: 24px;
+                                            }
+                                        }
+        
+                                        .index {
+                                            @include index();
+                                            
+                                            span {
+                                                @include square(12px);
+        
+                                                & + span {
+                                                    margin-left: 14px;
+                                                }
+        
+                                                &.on {
+                                                    background-color: $main-color;
+                                                }
+                                            }
+                                        }
+                                    }
+         
+                                    .title-text-link {
+                                        order: 1;
+                                        
+                                        @include responsive(pc-M-screens) {
+                                            order: 2;
+                                            margin-top: 30px;
+                                        }
+
+                                        @include responsive(pc-L-screens) {
+                                            order: 2;
+                                            margin-top: calc(80px / 680px) * 100%;
+                                        }
+        
+                                        .title-box {
+                                            text-align: center;
+                
+                                            @include responsive(pc-M-screens) {
+                                                text-align: left;
+                                            }
+        
+                                            strong {
+                                                font-size: calc(1em + 6px);
+                                                
+                                                @include responsive(pc-M-screens) {
+                                                    font-size: 30px;
+                                                }
+                                            }
+                                            
+                                            span {
+                                                display: block;
+                                                color: #aaa;
+                                                font-size: calc(1em - 2px);
+                                            }
+                                        }
+            
+                                        .text-box {
+                                            margin-top: 30px;
+        
+                                            @include responsive(tablet-screens) {
+                                                margin-top: 50px;
+                                            }
+        
+                                            @include responsive(pc-M-screens) {
+                                                margin-top: 60px;
+                                            }
+        
+                                            p, li {
+                                                display: flex;
+                                                @include font_height(1em);
+        
+                                                @include responsive(tablet-screens) {
+                                                    font-size: 18px;
+                                                }
+                                                
+                                                & + li {
+                                                    margin-top: 10px;
+                                                    
+                                                    @include responsive(tablet-screens) {
+                                                        margin-top: 20px;
+                                                    }
+        
+                                                    // @include responsive(pc-M-screens) {
+                                                    //     margin-top: 25px;
+                                                    // }
+                                                }
+        
+                                                b {
+                                                    width: 20%;
+        
+                                                    @include responsive(pc-M-screens) {
+                                                        width: 25%;
+                                                    }
+                                                }
+                                                
+                                                span {
+                                                    width: 80%;
+        
+                                                    @include responsive(pc-M-screens) {
+                                                        width: 75%;
+                                                    }
+                                                }
+                                            }
+                                        }
+                
+                                        .link-box {
+                                            display: flex;
+                                            margin-top: 45px;
+                                            
+                                            @include responsive(pc-L-screens) {
+                                                margin-top: calc(80px / 680px) * 100%;
+                                            }
+                
+                                            li {
+                                                overflow: hidden;
+                                                border: 1px solid opacify($point-pink, 0.5);
+                                                border-radius: 100px;
+                                                
+                                                & + li {
+                                                    margin-left: 8px;
+                                                }
+                                                
+                                                a {
+                                                    padding: 3px 10px;
+                                                    min-width: 60px;
+                                                    text-align: center;
+                                                    @include font_height(1em);
+                                                    color: $point-pink;
+
+                                                    &:hover {
+                                                        color: #fff;
+                                                        background-color: $point-pink;
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    } // title-text-skill
+                                    
+                                    .more-box {
+                                        display: none;
+                                        position: absolute;
+                                        right: 20px; top: 20px;                                
+                                        
+                                        @include responsive(pc-M-screens) {
+                                            bottom: 0;
+                                        }
+        
+                                        .more-bt {
+                                            @include square(36px);
+                                            text-align: center;
+                                            border-radius: 50%;
+                                            background-color: $point-pink;
+                                            
+                                            
+                                            span {
+                                                @include font_height(38px, 30px);
+                                                font-weight: lighter;
+                                                color: #fff;
+                                            }
+                                        }
+                                    }
+                                } // item-con
+                            } // item-inner
+                        } // item-wrap
+                    } // item-wrap
+                } // portfolio-list
+            } // portfolio-area
+        } // section#portfolioWrap
+    } // main
+    
+    footer {
+        padding-top: 60px;
+        background-color: $main-color;
+
+        @include responsive(table-screens) {
+            padding-top: 120px;
+        }
+
+        @include responsive(pc-screens) {
+            padding-top: 150px;
+        }
+
+        @include responsive(pc-L-screens) {
+            padding-top: 180px;
+        }
+
+        .footer-inner {
+            position: relative;
+            height: 370px;
+            // background-color: aqua;
+
+            @include responsive(pc-screens) {
+                height: 500px;
+            }
+            
+            .txt-wrap {
+                text-align: center;
+                
+                @include responsive(pc-screens) {
+                    text-align: left;
+                    margin-left: 80px;
+                }
+
+                span, strong { display: block; }
+
+                span {
+                    font-size: 16px;
+                    
+                    @include responsive(pc-screens) {
+                        font-size: 26px;
+                    }
+                }
+                
+                strong {
+                    margin-top: 5px;
+                    font-size: 24px;
+
+                    @include responsive(pc-screens) {
+                        font-size: 44px;
+                    }
+                    
+                    .point-txt {
+                        color: $point-pink;
+                    }
+                }
+            } // txt-wrap
+
+            #contact {
+                position: absolute;
+                left: 0; bottom: 80px;
+                width: 100%;
+                text-align: center;
+                // background-color: cadetblue;
+                
+                @include responsive(pc-screens) {
+                    width: auto;
+                    left: calc(680px / 1380px) * 100%;
+                    bottom: 140px;
+                }
+
+                a {
+                    transition: all .3s;
+
+                    img {
+                        width: 220px;
+                        animation: 1.5s linear email-bounce infinite;
+                        
+                        @keyframes email-bounce {
+                            from { transform: rotateZ(30deg); }
+                            20% { transform: rotateZ(0deg); }
+                            80% { transform: rotateZ(0deg); }
+                            to { transform: rotateZ(30deg); }
+                        }
+                        
+                        @include responsive(pc-screens) {
+                            width: 300px;
+                        }
+    
+                        &:hover {
+                            animation-play-state: paused;
+                        }
+                    }
+                }
+            } // email-wrap
+
+            .copyright {
+                position: absolute;
+                bottom: 20px;
+                width: 100%;
+                text-align: center;
+                // background-color: rebeccapurple;
+
+                span {
+                    font-weight: lighter;
+                    font-size: calc(1em - 2px);
+                    
+                    @include responsive(pc-screens) {
+                        font-size: 16px;
+                    }
+                }
+            } // copyright
+        } // footer-inner
+    } // footer
+} // wraper

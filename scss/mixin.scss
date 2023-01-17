@@ -1,0 +1,116 @@
+// 중단점
+@mixin responsive($break) {
+    @if $break == mobile-screens {
+        @media screen and (min-width:$break-mobile) {
+            @content;
+        }
+    }
+
+    @else if $break == tablet-screens {
+        @media screen and(min-width:$break-tablet) {
+            @content;
+        }
+    }
+
+    @else if $break == pc-screens {
+        @media screen and(min-width:$break-pc) {
+            @content;
+        }
+    }
+
+    @else if $break == pc-M-screens {
+        @media screen and(min-width:$break-pc-M) {
+            @content;
+        }
+    }
+
+    @else if $break == pc-L-screens {
+        @media screen and(min-width:$break-pc-L) {
+            @content;
+        }
+    }
+}
+
+// 수직, 수평 정가운데 정렬
+// 상위태그에 position: relative
+@mixin position_center() {
+    position: absolute;
+    left: 50%; top: 50%;
+    transform: translate(-50%, -50%);
+}
+
+// 정사각형
+@mixin square($size) {
+    width: $size; height: $size;
+}
+
+// 탈그리드
+@mixin out_container() {
+    position: relative;
+    left: 50%; right: 50%;
+    width: 100vw;
+    margin-left: -50vw; 
+    margin-right: -50vw;
+}
+
+// 폰트 사이즈 + 줄간격
+@mixin font_height($size, $height: calc($size + 10px)) {
+    font-size: $size;
+    line-height: $height;
+}
+
+// 커버 생성
+@mixin overlay($color) {
+    position: absolute;
+    top: 0; left: 0;
+    display: block;
+    content: '';
+    width: 100%; height: 100%;
+    background-color: $color;
+}
+
+// 정육면체(cube) 생성
+// html: div.front+ div.back + div.top...
+// 요소에 선언(div), $side: 정사각형 한 변의 길이
+@mixin create_cube($side) {
+    @include square($side);
+    $depth: calc($side / 2);
+    &.front {transform: translateZ($depth);}
+    &.back {transform: scaleX(-1) translateZ(-$depth);}
+    &.top {transform: rotateX(90deg) translateZ($depth);}
+    &.bottom {transform: rotateX(-90deg) translateZ($depth);}
+    &.left {transform: rotateY(-90deg) translateZ($depth);}
+    &.right {transform: rotateY(90deg) translateZ($depth);}
+}
+
+// html : div.index > span
+// div.index에서 선언
+@mixin index() {
+    display: flex;
+    justify-content: right;
+
+    span {
+        display: block;
+        @include square(11px);
+        margin-top: 16px;
+        cursor: pointer;
+        border-radius: 50%;
+        background-color: #ddd;
+
+        transition: transform .3s;
+        
+        @include responsive(pc-screens) {
+            @include square(13px);
+            margin-top: 20px;
+        }
+
+        & + span {
+            margin-left: 18px;
+        }
+        
+        &.on {
+            transform: scale(1.3);
+            background-color: $point-neon;
+        }
+    }
+}
