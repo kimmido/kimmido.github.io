@@ -1,0 +1,315 @@
+@charset "utf-8";
+@import './style.scss';
+@import './common.scss';
+@import './mixin.scss';
+
+
+.wrap {
+    
+
+    .modal-overlay {
+        @include overlay(rgba(0, 0, 0, 0.6));
+        position: fixed;
+        z-index: 2;
+    }
+
+    #musicModal {
+
+        .music-modal-box {
+            @include position_center();
+            width: 450px;
+            padding: 50px;
+            border-radius: 15px;
+            background-color: $yellow;
+
+            p {
+                font-size: 24px;
+                color: #222;
+                font-weight: 600;
+                text-align: center;
+            }
+
+            .btn-box {
+                display: flex;
+                justify-content: space-around;
+                margin-top: 40px;
+
+                button {
+                    width: 100px;
+                    padding: 8px 0 3px;
+                    font-size: 24px;
+                    color: #555;
+                    border: 3px dashed #555;
+                    border-radius: 100px;
+                    
+                    &:hover {
+                        
+                        &#musicStart {
+                            color: #fff;
+                            border-color: $blue;
+                            background-color: $blue;
+                        }
+                        
+                        &#musicCancel {
+                            color: #fff;
+                            border-color: $red;
+                            background-color: $red;
+                        }
+                    }
+                }
+            }
+        }
+    } // music-confirm-wrap
+
+    .title-music-control {
+        display: flex;
+        justify-content: space-between;
+        margin-top: 20px;
+        
+        h1 {
+            width: 300px;
+    
+            img {
+                width: 100%;
+            }
+        }
+    
+        #musicControl {
+            position: relative;
+            width: 150px;
+            cursor: pointer;
+            filter: grayscale(100%);
+
+            transition: all .3s;
+            
+            &:hover {
+
+                span {
+                    display: block;
+                }
+            }
+            
+            &.play {
+                filter: grayscale(0%);
+
+                span {
+                    display: block;
+                }
+            }
+            
+            img {
+                width: 100%;
+                border: 5px solid $yellow;
+            }
+    
+            span {
+                @include position_center();
+                display: none;
+                color: $yellow;
+            }
+        }
+    } // title-music-control
+
+    
+    .circle {
+        position: relative;
+        @include square(500px);
+        margin: 30px auto 0;
+        border: 35px solid $yellow;
+        border-radius: 50%;
+        background-color: $mint;
+        
+        .circle-dot {
+            @include position_center();
+            @include square(inherit);
+            border: 28px dotted white;
+            border-radius: inherit;
+
+            animation: light 1s linear infinite alternate-reverse;
+            
+            @keyframes light {
+                from {box-shadow: 0 0 130px rgba(yellow, 0.8)}
+                to {box-shadow: 0 0 30px rgba(yellow, 0.3)}
+            }
+            
+            .main-img {
+                @include position_center();
+                                
+                img {
+                    width: 490px;
+                    filter: drop-shadow(0 15px 20px rgba(#000, 0.2)); 
+                }
+            }
+        }
+    } // circle
+
+    #menu1, #menu2, #menu3 {
+        position: absolute;
+        cursor: pointer;
+    }
+
+    #menu1 {
+        left: 50px; top: 170px;
+        transform: rotateZ(-20deg);
+
+        @include square(200px);
+        border-radius: 50%;
+        
+        &:hover {
+            background-color: $yellow;    
+        }
+
+        img {
+            width: 200px;
+        }
+    }
+
+    #Con1 {
+        @include overlay($yellow);
+        padding: 20px 0 100px;
+        margin-top: 100%;
+        
+        transition: margin-top .4s linear;
+        
+        &.on {
+            margin-top: 0;
+        }
+
+        .close {
+            position: absolute;
+            right: 40px; top: 30px;
+            width: 50px;
+            cursor: pointer;
+            
+            transition: transform .3s;
+
+            &:hover {
+                transform: scale(1.2);
+            }
+        }
+
+        .tab {
+            display: flex;
+            justify-content: space-between;
+            padding: 10px 0;
+            border: 5px solid $blue;
+            border-radius: 30px;
+            background-color: #fff;
+
+            li {
+                width: 25%;
+                text-align: center;
+                cursor: pointer;
+                
+                padding: 30px 20px;
+
+                & + li {
+                    border-left: 3px dashed $blue;
+                }
+
+                &.on {
+                    color: $red;
+                }
+                
+                &:hover {
+                    
+                    span {
+                        transform: scale(1.4);
+                    }
+                }
+
+                span {
+                    display: block;
+                    font-size: 30px;
+                    font-weight: 600;
+                    pointer-events: none;
+
+                    transition: all .3s;
+                }
+            }
+
+        } // tab
+        
+        .tab-con-wrap {
+            margin-top: 50px;
+
+            .tab-con-flex {
+                display: flex;
+                justify-content: space-between;
+                
+                > div {
+                    position: relative;
+                    width: 48%;
+                    overflow: hidden;
+                    aspect-ratio: 1 / 1;
+                    border-radius: 20px;
+                    background-color: #fff;
+
+                    .tab-con-list {
+                        @include square(100%);
+
+                        li {
+                            position: relative;
+                            display: none;
+                            @include square(100%);
+    
+                            &.on {
+                                display: block;
+                            }
+
+                            img {
+                                @include position_center();
+                                width: 300px;
+                                
+                            }
+
+                            &:nth-child(3) {
+
+                                img {
+                                    width: auto;
+                                    height: 370px;
+                                }
+                            }
+
+                            &:nth-child(4) {
+
+                                img {
+                                    width: 200px;
+                                }
+                            }
+                        }
+                    }
+
+                    .name {
+                        position: absolute;
+                        bottom: 0;
+                        width: 100%;
+                        padding: 20px 0;
+                        text-align: center;
+                        color: #fff;
+                        background-color: $blue;
+
+                        strong {
+                            font-size: 40px;
+                            font-weight: 600;
+                        }
+                    }
+                    
+                    // &.pat {
+
+                    //     .name {
+                    //         background-color: $pat;
+                    //     }
+                    // }
+
+                    // &.mat {
+
+                    //     .name {
+                    //         background-color: $mat;
+                    //     }
+                    // }
+                }
+            }
+        }
+    } // #menuCon1
+} // wrap
